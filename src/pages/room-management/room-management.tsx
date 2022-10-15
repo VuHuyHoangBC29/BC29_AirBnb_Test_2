@@ -217,7 +217,7 @@ export default function RoomManagement(): JSX.Element {
           Thêm phòng
         </Button>
         <Search
-          placeholder="input search text"
+          placeholder="Nhập tên phòng cần tìm"
           onSearch={onSearch}
           enterButton
         />
