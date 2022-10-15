@@ -35,7 +35,6 @@ import { UserGender } from "../../enums/user";
 import { updateUserApi } from "../../services/user";
 import {
   fetchUserDetailedInfoAction,
-  updateUserAction,
   updateUserAvatarAction,
 } from "../../store/reducers/userDetailsReducer";
 import { AppDispatch, RootState } from "../../store/store";

@@ -13,9 +13,12 @@ import { AppDispatch, RootState } from "../../store/store";
 import { fetchLocationsListAction } from "../../store/reducers/locationsListReducer";
 import { locationDetailsActions } from "../../store/reducers/locationDetailsReducer";
 import { deleteLocationAction } from "../../store/reducers/locationsListReducer";
+import Search from "antd/lib/input/Search";
 
 export default function LocationManagement(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
+
+  const [searchState, setSearchState] = useState<DataType[]>([]);
 
   const { locationsList } = useSelector(
     (state: RootState) => state.locationsListReducer
@@ -140,6 +143,27 @@ export default function LocationManagement(): JSX.Element {
     };
   });
 
+  const onSearch = (value: string) => {
+    console.log(value);
+    let searchData = data.filter((ele) => {
+      return (
+        ele.tinhThanh
+          .toLowerCase()
+          .trim()
+          .indexOf(value.toLowerCase().trim()) !== -1 
+        // ele.tenViTri
+        //   .toLowerCase()
+        //   .trim()
+        //   .indexOf(value.toLowerCase().trim()) !== -1 ||
+        // ele.quocGia.toLowerCase().trim().indexOf(value.toLowerCase().trim()) !==
+        //   -1
+      );
+    });
+    console.log(searchData);
+
+    setSearchState(searchData);
+  };
+
   const onChange: TableProps<DataType>["onChange"] = (
     pagination,
     filters,
@@ -162,13 +186,18 @@ export default function LocationManagement(): JSX.Element {
         >
           Thêm vị trí
         </Button>
-        {/* <Search
-          placeholder="input search text"
+        <Search
+          placeholder="Nhập tỉnh thành cần tìm"
           onSearch={onSearch}
           enterButton
-        /> */}
+          allowClear
+        />
       </Space>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table
+        columns={columns}
+        dataSource={searchState.length > 0 ? searchState : data}
+        onChange={onChange}
+      />
     </>
   );
 }

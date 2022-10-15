@@ -8,6 +8,7 @@ import {
   fetchUserDetailedInfoApi,
   fetchUsersListApi,
   fetchUsersListByPageApi,
+  fetchUsersSearchListApi,
 } from "../../services/user";
 
 export const fetchUsersListAction = createAsyncThunk(
@@ -25,6 +26,15 @@ export const fetchUsersListByPageAction = createAsyncThunk(
     const response = await fetchUsersListByPageApi(page);
     // console.log(response);
     return response.data.content.data;
+  }
+);
+
+export const fetchUsersSearchListAction = createAsyncThunk(
+  "usersList/fetchUsersSearchList",
+  async (name: string) => {
+    const response = await fetchUsersSearchListApi(name);
+
+    return response.data.content;
   }
 );
 
@@ -78,7 +88,13 @@ const usersListSlice = createSlice({
       fetchUsersListByPageAction.fulfilled,
       (state: UsersListState, action: PayloadAction<User[]>) => {
         state.usersList = action.payload;
-        console.log("fulfilled");
+        // console.log("fulfilled");
+      }
+    );
+    builder.addCase(
+      fetchUsersSearchListAction.fulfilled,
+      (state: UsersListState, action: PayloadAction<User[]>) => {
+        state.usersList = action.payload;
       }
     );
     builder.addCase(

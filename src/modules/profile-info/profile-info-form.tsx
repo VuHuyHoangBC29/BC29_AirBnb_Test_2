@@ -1,5 +1,6 @@
 import { Button, Card, DatePicker, Form, Input, Select } from "antd";
 import moment from "moment";
+import { homedir } from "os";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -67,6 +68,7 @@ export default function ProfileInfoForm(): JSX.Element {
         id: userDetail!.id,
       },
       callback: navigate,
+      destination: "home",
     };
 
     console.log(payload);

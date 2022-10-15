@@ -24,6 +24,15 @@ export const fetchUsersListByPageApi = (
   });
 };
 
+export const fetchUsersSearchListApi = (
+  name: string
+): AxiosPromise<HttpResponse<User[]>> => {
+  return request({
+    url: `/users/search/${name}`,
+    method: "GET",
+  });
+};
+
 export const fetchUserDetailedInfoApi = (
   id: number
 ): AxiosPromise<HttpResponse<User>> => {

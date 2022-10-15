@@ -108,6 +108,7 @@ export default function UserForm(): JSX.Element {
           id: userDetail!.id,
         },
         callback: navigate,
+        destination: "admin/user-management",
       };
 
       console.log(payload);

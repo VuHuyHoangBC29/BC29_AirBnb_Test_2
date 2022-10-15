@@ -58,6 +58,7 @@ export interface UpdateUserApi {
 export interface UpdateUserThunk {
   submitData: UpdateUserApi;
   callback: Function;
+  destination: string;
 }
 
 export interface UpdateUserAvatar {

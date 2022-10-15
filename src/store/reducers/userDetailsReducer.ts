@@ -36,7 +36,7 @@ export const updateUserAction = createAsyncThunk(
       message: "Cập nhật thành công!",
     });
 
-    data.callback("/");
+    data.callback(`/${data.destination}`);
 
     return response.data.content;
   }

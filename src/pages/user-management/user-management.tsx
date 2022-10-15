@@ -1,7 +1,10 @@
 import { Table, Input, Space, Button } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import React, { useEffect, useState } from "react";
-import { deleteUserAction } from "../../store/reducers/usersListReducer";
+import {
+  deleteUserAction,
+  fetchUsersSearchListAction,
+} from "../../store/reducers/usersListReducer";
 import { AppDispatch, RootState } from "../../store/store";
 import {
   EditOutlined,
@@ -16,18 +19,26 @@ import {
   fetchUsersListByPageAction,
 } from "../../store/reducers/usersListReducer";
 import { userDetailsActions } from "../../store/reducers/userDetailsReducer";
+import { User } from "../../interfaces/user";
 
 export default function UserManagement(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
 
   const [pageCurrent, setPageCurrent] = useState<number>(1);
 
+  const [searchState, setSearchState] = useState<DataType[]>([]);
+
   const { usersList } = useSelector(
     (state: RootState) => state.usersListReducer
   );
 
+  // useEffect(() => {
+  //   dispatch(fetchUsersListByPageAction(1));
+  //   dispatch(userDetailsActions.handleRemoveUserDetail(null));
+  // }, []);
+
   useEffect(() => {
-    dispatch(fetchUsersListByPageAction(1));
+    dispatch(fetchUsersListAction());
     dispatch(userDetailsActions.handleRemoveUserDetail(null));
   }, []);
 
@@ -56,7 +67,13 @@ export default function UserManagement(): JSX.Element {
 
   const { Search } = Input;
 
-  const onSearch = (value: string) => console.log(value);
+  // const onSearch = (value: string) => {
+  //   if (value !== "") {
+  //     dispatch(fetchUsersSearchListAction(value));
+  //   } else {
+  //     dispatch(fetchUsersListByPageAction(1));
+  //   }
+  // };
 
   interface DataType {
     key: React.Key;
@@ -174,6 +191,7 @@ export default function UserManagement(): JSX.Element {
   const data = usersList.map((ele, index) => {
     return {
       key: index + 1,
+      // key: ele.id,
       id: ele.id,
       name: ele.name,
       email: ele.email,
@@ -186,6 +204,20 @@ export default function UserManagement(): JSX.Element {
       tuongTac: ele.id,
     };
   });
+
+  console.log(data);
+
+  const onSearch = (value: string) => {
+    console.log(value);
+    let searchData = data.filter((ele) => {
+      return (
+        ele.name.toLowerCase().trim().indexOf(value.toLowerCase().trim()) !== -1
+      );
+    });
+    console.log(searchData);
+
+    setSearchState(searchData);
+  };
 
   const onChange: TableProps<DataType>["onChange"] = (
     pagination,
@@ -211,23 +243,24 @@ export default function UserManagement(): JSX.Element {
           Thêm người dùng
         </Button>
         <Search
-          placeholder="input search text"
+          placeholder="Nhập họ tên cần tìm"
           onSearch={onSearch}
           enterButton
+          allowClear
         />
       </Space>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={searchState.length > 0 ? searchState : data}
         onChange={onChange}
-        pagination={{
-          pageSize: 10,
-          total: 100,
-          onChange: async (page) => {
-            await dispatch(fetchUsersListByPageAction(page));
-            setPageCurrent(page);
-          },
-        }}
+        // pagination={{
+        //   pageSize: 10,
+        //   total: 100,
+        //   onChange: async (page) => {
+        //     await dispatch(fetchUsersListByPageAction(page));
+        //     setPageCurrent(page);
+        //   },
+        // }}
       />
     </>
   );

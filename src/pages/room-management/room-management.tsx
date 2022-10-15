@@ -17,6 +17,8 @@ import { roomDetailsActions } from "../../store/reducers/roomDetailsReducer";
 export default function RoomManagement(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
 
+  const [searchState, setSearchState] = useState<DataType[]>([]);
+
   useEffect(() => {
     dispatch(fetchRoomsListAction());
     dispatch(roomDetailsActions.handleRemoveRoomDetails(null));
@@ -47,7 +49,7 @@ export default function RoomManagement(): JSX.Element {
   };
 
   const { Search } = Input;
-  const onSearch = (value: string) => console.log(value);
+
   interface DataType {
     key: React.Key;
     id: number;
@@ -176,6 +178,21 @@ export default function RoomManagement(): JSX.Element {
     };
   });
 
+  const onSearch = (value: string) => {
+    console.log(value);
+    let searchData = data.filter((ele) => {
+      return (
+        ele.tenPhong
+          .toLowerCase()
+          .trim()
+          .indexOf(value.toLowerCase().trim()) !== -1
+      );
+    });
+    console.log(searchData);
+
+    setSearchState(searchData);
+  };
+
   const onChange: TableProps<DataType>["onChange"] = (
     pagination,
     filters,
@@ -205,7 +222,11 @@ export default function RoomManagement(): JSX.Element {
           enterButton
         />
       </Space>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table
+        columns={columns}
+        dataSource={searchState.length > 0 ? searchState : data}
+        onChange={onChange}
+      />
     </>
   );
 }

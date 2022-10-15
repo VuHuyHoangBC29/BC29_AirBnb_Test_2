@@ -51,14 +51,14 @@ export default function AdminLayout(): JSX.Element {
                 navigate("/admin/room-management");
               },
             },
-            {
-              key: "4",
-              icon: <BookOutlined />,
-              label: "Quản lý đặt phòng",
-              onClick: () => {
-                navigate("/admin/booking-management");
-              },
-            },
+            // {
+            //   key: "4",
+            //   icon: <BookOutlined />,
+            //   label: "Quản lý đặt phòng",
+            //   onClick: () => {
+            //     navigate("/admin/booking-management");
+            //   },
+            // },
           ]}
         />
       </Sider>

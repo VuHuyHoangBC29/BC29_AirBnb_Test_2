@@ -4,7 +4,7 @@ import "./App.less";
 import Router from "./routes";
 import { BrowserRouter } from "react-router-dom";
 
-function App():JSX.Element {
+function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<></>}>
