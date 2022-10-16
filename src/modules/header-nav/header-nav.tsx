@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AutoComplete, Input, MenuProps } from "antd";
 import type { SelectProps } from "antd/es/select";
@@ -19,8 +19,15 @@ import {
 import { UserType } from "../../enums/user";
 import { fetchLocationsListAction } from "../../store/reducers/locationsListReducer";
 import { stringify } from "querystring";
+import { LoadingContext } from "../../context/loading.context";
 
 export default function HeaderNav(): JSX.Element {
+  const value = useContext(LoadingContext);
+
+  const { isLoading, setIsLoading } = useContext(LoadingContext);
+
+  setIsLoading()
+  
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
@@ -192,7 +199,7 @@ export default function HeaderNav(): JSX.Element {
 
   return (
     <div>
-      <Menu mode="horizontal" defaultSelectedKeys={["mail"]}>
+      <Menu mode="horizontal" defaultSelectedKeys={["home"]}>
         <Menu.Item
           style={{
             display: "flex",
